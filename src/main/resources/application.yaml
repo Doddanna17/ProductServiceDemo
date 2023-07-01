@@ -2,9 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: /product-service
-
-
 spring:
+  application:
+    name: PRODUCT-SERVICE
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:5432/products
     username: postgres
@@ -14,3 +14,12 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
