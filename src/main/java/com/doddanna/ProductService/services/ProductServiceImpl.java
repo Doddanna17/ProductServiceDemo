@@ -62,4 +62,20 @@ public class ProductServiceImpl implements ProductService {
         log.info("Returning all products");
         return Optional.of(collect);
     }
+
+    @Override
+    public Optional<ProductResponse> reduceQuantity(long productId, long quantity) {
+        log.info("Reducing quantity for product "+productId+" of quantity : "+quantity);
+        Optional<ProductDto> byId = productRepository.findById(productId);
+        if(byId.isEmpty())
+            throw new BadRequestException("Invalid product id");
+        ProductDto productDto = byId.get();
+        if(productDto.getQuantity()<quantity)
+            throw new BadRequestException("Insufficient quantity available");
+        productDto.setQuantity(productDto.getQuantity()-quantity);
+        ProductDto save = productRepository.save(productDto);
+        ProductResponse productResponse=new ProductResponse();
+        BeanUtils.copyProperties(save,productResponse );
+        return Optional.of(productResponse);
+    }
 }

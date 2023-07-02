@@ -14,4 +14,6 @@ public interface ProductService{
     Optional<ProductResponse> findById(long id);
 
     Optional<List<ProductResponse>> findAllProducts();
+
+    Optional<ProductResponse> reduceQuantity(long productId, long quantity);
 }
